@@ -60,6 +60,7 @@ function getCookie(name) {
 // function to delete cookie
 const deleteCookie = (name) => {
 	document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+	location.href = "login.html";
 };
 
 // Function to store data in local storage
@@ -83,6 +84,24 @@ const showLoader = () => {
 const hideLoader = () => {
 	$(".preloader").hide();
 };
+function loader() {
+    $(".button").attr("disabled", true)
+    Swal.fire({
+        padding: '1em',
+        html: '<span class="btn-loader-red" ></span>',
+        allowOutsideClick: false,
+        showCancelButton: false,
+        showConfirmButton: false,
+        customClass: {
+            popup: 'rm-swal-modal',
+        }
+    })
+}
+
+function stopLoader() {
+    $(".button").attr("disabled", false); // Enable the button
+    Swal.close(); // Close the loader
+}
 
 //* end helper functions
 
@@ -140,7 +159,7 @@ const makeApiCall = (ajaxOptions) => {
 		if (jqXHR.status === 401) {
 			showToast("expired or invalid token", "error", () => {
 				deleteCookie("shortlyToken");
-				location.href= "/shorten-url/login.html";
+				location.href= "login.html";
 			});
 		} else {
 			error(errorResponse.response);
